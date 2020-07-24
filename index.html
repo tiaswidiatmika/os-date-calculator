@@ -10,11 +10,56 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
     <script src="https://momentjs.com/downloads/moment.js"></script>
-    <!-- tambahan  -->
+    <style>
+        body{ 
+            background-color: #222; 
+            color: #27c452;
+            font-family: Helvetica;
+            font-weight: 400;
+            font-stretch: normal;
+            font-size: 13.3333px;
+        } 
+
+        
+
+        p{ 
+        color: #32a852; 
+        } 
+        input { 
+            background-color: #333333; 
+            border: 1px solid #555; 
+            border-radius: 5%;
+            font: 400 13.3333px Helvetica;
+            color: #e6e6e6;
+            font-style: normal;
+            font-variant-ligatures: normal;
+            font-variant-caps: normal;
+            font-variant-numeric: normal;
+            font-variant-east-asian: normal;
+            font-weight: 400;
+            font-stretch: normal;
+            font-size: 13.3333px;
+            line-height: normal;
+            font-family: Helvetica;
+        } 
+        .change { 
+            cursor: pointer; 
+             
+            width: 20px; 
+            text-align: center; 
+            padding: 5px; 
+            margin-left: 8px; 
+        } 
+        .dark{ 
+            
+        } 
+    </style>
     
-    </script>
 </head>
 <body>
+    <h4><p>Input date in either arrival date, visa validity, or in any extension expiry date</p></h4>
+    <h4><p>Input must be inserted in format "DD/MM/YYYY" or "DD-MM-YYYY"</p></h4>
+    
     <table>
         <tr>
             <td>visa length:</td>
@@ -49,14 +94,15 @@
             <td><input type="text" name="" id="fourth_ext" class="ext_label"></td>
         </tr>
     </table>
-    
-    
+   <h4>Or count days after stay permit expires</h4>
+   <input type="text" name="" id="permit_dies"> is <span id="overstays">... </span> day(s) over
     
     
 </body>
 <script>
     $(document).ready(function () {
-        
+        // $('body').css('background-color', '#292929');
+        // $('input').css('color', 'white');
         //check if visa length is empty
         var visa_length;
         var arrival_date, valid_until, first_ext_validity, second_ext_validity, third_ext_validity, fourth_ext_validity;
@@ -164,6 +210,23 @@
             $('#first_ext').val(moment(fourth_ext_validity, 'DD/MM/YYYY').subtract(90, 'days').format('DD/MM/YYYY'));
             $('#valid_until').val(moment(fourth_ext_validity, 'DD/MM/YYYY').subtract(120, 'days').format('DD/MM/YYYY'));
             $('#arrival_date').val(moment(fourth_ext_validity, 'DD/MM/YYYY').subtract(visa_length + 120, 'days').format('DD/MM/YYYY'));
+        });
+
+        $('#permit_dies').change(function (e) { 
+            e.preventDefault();
+            var permit_dies = moment( $(this).val(), "DD/MM/YYYY" ).format("DD/MM/YYYY");
+            var os = moment().diff(moment($('#permit_dies').val(), "DD/MM/YYYY"),'days');
+            if (isNaN(os)){
+                $(this).val("Invalid date");
+                $(this).select();
+                $('#overstays').html('... ');
+            } else {
+                $('#overstays').html(os);
+            }
+            
+
+            
+            
         });
 
     });
