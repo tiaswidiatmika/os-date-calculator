@@ -125,9 +125,6 @@
 
         var visa_length;
         var arrival_date, valid_until, first_ext_validity, second_ext_validity, third_ext_validity, fourth_ext_validity;
-        function isvaliddate(str_date){
-            str_date
-        }
         
         function isNotValid(value){
             if (! $('#visa_length').val()) {
@@ -143,6 +140,10 @@
             visa_length = +$('#visa_length').val()-1;
             return false;
         }
+
+        // function isnotnumberinput (value){
+        //     if()
+        // }
         //  ARRIVAL DATE INPUT
         $('#arrival_date').change( function (e) {
             e.preventDefault();
@@ -317,24 +318,25 @@
                 return;
             }
 
-            // check if visa length is empty and stop the process
-            if($('#visa_length').val()){
-                var days_here = +$(this).val();
+            // check if length of stay inserted is a valid number, then pop an alert
             
-                if (days_here<=1){
-                //    console.log("baru sehari");
-                    arrival_date = moment().format("DD/MM/YYYY");
-                    
-                    // console.log(arrival_date);
-                    $('#arrival_date').val(arrival_date);
-                    $('#arrival_date').trigger('change');
-                } else {
-                    arrival_date = moment().subtract(days_here-1, 'days').format("DD/MM/YYYY");
-                    $('#arrival_date').val(arrival_date);
-                    $('#arrival_date').trigger('change');
-                }
+            if (isNaN($('#visa_length').val())){
+                alert("Please input a valid number");
             }
-           
+            var days_here = +$(this).val();
+            
+           if (days_here<=1){
+            //    console.log("baru sehari");
+                arrival_date = moment().format("DD/MM/YYYY");
+               
+                // console.log(arrival_date);
+                $('#arrival_date').val(arrival_date);
+                $('#arrival_date').trigger('change');
+           } else {
+               arrival_date = moment().subtract(days_here-1, 'days').format("DD/MM/YYYY");
+               $('#arrival_date').val(arrival_date);
+               $('#arrival_date').trigger('change');
+           }
 
         });
 
