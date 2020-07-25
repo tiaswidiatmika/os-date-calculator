@@ -318,21 +318,23 @@
             }
 
             // check if visa length is empty and stop the process
-            isNotValid($('#visa_length').val());
-            var days_here = +$(this).val();
+            if($('#visa_length').val()){
+                var days_here = +$(this).val();
             
-           if (days_here<=1){
-            //    console.log("baru sehari");
-                arrival_date = moment().format("DD/MM/YYYY");
-               
-                // console.log(arrival_date);
-                $('#arrival_date').val(arrival_date);
-                $('#arrival_date').trigger('change');
-           } else {
-               arrival_date = moment().subtract(days_here-1, 'days').format("DD/MM/YYYY");
-               $('#arrival_date').val(arrival_date);
-               $('#arrival_date').trigger('change');
-           }
+                if (days_here<=1){
+                //    console.log("baru sehari");
+                    arrival_date = moment().format("DD/MM/YYYY");
+                    
+                    // console.log(arrival_date);
+                    $('#arrival_date').val(arrival_date);
+                    $('#arrival_date').trigger('change');
+                } else {
+                    arrival_date = moment().subtract(days_here-1, 'days').format("DD/MM/YYYY");
+                    $('#arrival_date').val(arrival_date);
+                    $('#arrival_date').trigger('change');
+                }
+            }
+           
 
         });
 
